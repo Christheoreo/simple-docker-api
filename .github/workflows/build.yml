@@ -8,7 +8,7 @@ on:
 
 env:
   IMAGE_NAME: simple-docker-api
-  PORT: ":80"
+  PORT: 80
   DOCKER_IMAGE_URL: docker.pkg.github.com/christheoreo/simple-docker-api/simple-docker-api:latest
 
 jobs:
