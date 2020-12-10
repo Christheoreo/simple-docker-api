@@ -9,12 +9,13 @@ on:
 env:
   IMAGE_NAME: simple-docker-api
   PORT: :80
+  DOCKER_IMAGE_URL: docker.pkg.github.com/christheoreo/simple-docker-api/simple-docker-api:latest
 
 jobs:
 
   # Push image to GitHub Packages.
   # See also https://docs.docker.com/docker-hub/builds/
-  push:
+  build:
     runs-on: ubuntu-latest
     if: github.event_name == 'push'
 
@@ -51,3 +52,21 @@ jobs:
 
           docker tag $IMAGE_NAME $IMAGE_ID:$VERSION
           docker push $IMAGE_ID:$VERSION
+  deploy:
+     runs-on: ubuntu-latest
+     steps:
+       - uses: webfactory/ssh-agent@v0.4.1
+         with: 
+            ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+       - name: executing remote ssh commands using password
+         uses: appleboy/ssh-action@master
+         with:
+           host: ${{ secrets.HOST }}
+           username: ${{ secrets.USERNAME }}
+           port: ${{ secrets.PORT }}
+           script: |
+             echo "${{ secrets.GITHUB_TOKEN }}" | docker login docker.pkg.github.com -u ${{ github.actor }} --password-stdin
+             docker stop $IMAGE_NAME || true && docker rm $IMAGE_NAME || true
+             docker rmi $(docker image ls -q $DOCKER_IMAGE_URL) || true
+             docker pull $DOCKER_IMAGE_URL
+             docker run -p 8080:80 -d $IMAGE_NAME:latest
