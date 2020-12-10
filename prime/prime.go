@@ -58,6 +58,7 @@ func getPrimesLessThan(max int64) {
 	primes = numberList
 }
 
+// filter filters the the int slice
 func filter(vs []int64, f func(int64) bool) []int64 {
 	vsf := make([]int64, 0)
 	for _, v := range vs {
