@@ -8,7 +8,7 @@ Once you have cloned the repo, you should create the copy the contents of `.env.
 Next, use `go get` to install dependencies.
 
 ## Prerequisites 
-Go is already downloaded and setup on your workspace.
+Go is already downloaded and setup on your workspace!
 
 # Licence
 Copyright 2020 Christheoreo
