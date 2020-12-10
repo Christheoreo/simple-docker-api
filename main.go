@@ -42,7 +42,7 @@ func main() {
 		if p {
 			r.Message = fmt.Sprintf("%d is a prime number!", number)
 		} else {
-			r.Message = fmt.Sprintf("%d is not a prime number!", number)
+			r.Message = fmt.Sprintf("%d is not a prime number!!", number)
 		}
 		return c.JSONPretty(http.StatusOK, r, "  ")
 	})
