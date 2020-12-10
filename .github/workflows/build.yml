@@ -8,7 +8,7 @@ on:
 
 env:
   IMAGE_NAME: simple-docker-api
-  PORT: :80
+  PORT: ":80"
   DOCKER_IMAGE_URL: docker.pkg.github.com/christheoreo/simple-docker-api/simple-docker-api:latest
 
 jobs:
@@ -54,6 +54,7 @@ jobs:
           docker push $IMAGE_ID:$VERSION
   deploy:
      runs-on: ubuntu-latest
+     needs: [build]
      steps:
        - uses: webfactory/ssh-agent@v0.4.1
          with: 
