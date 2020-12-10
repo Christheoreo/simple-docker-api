@@ -69,4 +69,4 @@ jobs:
              [ "$(docker ps -a | grep $IMAGE_NAME)" ] && docker stop $IMAGE_NAME && docker rm $IMAGE_NAME
              [ "$(docker image ls -a --no-trunc | grep $IMAGE_NAME)" ] && docker rmi $(docker image ls -q $DOCKER_IMAGE_URL) || true
              docker pull  $DOCKER_IMAGE_URL
-             docker run -p 8080:80 -d --name $IMAGE_NAME $IMAGE_NAME:latest 
+             docker run -p 8080:80 -d --name $IMAGE_NAME $DOCKER_IMAGE_URL:latest
