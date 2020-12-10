@@ -64,8 +64,8 @@ jobs:
            port: ${{ secrets.PORT }}
            key:  ${{ secrets.SSH_PRIVATE_KEY }}
            script: |
-             echo "${{ secrets.GITHUB_TOKEN }}" | docker login docker.pkg.github.com -u ${{ github.actor }} --password-stdin
-             docker stop $IMAGE_NAME || true && docker rm $IMAGE_NAME || true
+             echo "${{ secrets.GITHUB_TOKEN }}" | docker login docker.pkg.github.com -u ${{ github.actor }} --password-stdin             
+             [ "$(docker ps -a | grep $IMAGE_NAME)" ] && docker stop $IMAGE_NAME && docker rm $IMAGE_NAME
              docker rmi $(docker image ls -q $DOCKER_IMAGE_URL) || true
              docker pull $DOCKER_IMAGE_URL
-             docker run -p 8080:80 -d $IMAGE_NAME:latest
+             docker run -p 8080:80 -d --name $IMAGE_NAME $IMAGE_NAME:latest 
